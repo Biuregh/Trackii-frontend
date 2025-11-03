@@ -1,18 +1,15 @@
-import { useState } from 'react';
-import AuthTest from './components/AuthTest';
-import './App.css'
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/Authprovider";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div className="bg-blue-500 text-white p-4 rounded">
-        <h1>Trackii frontend</h1>
-        <AuthTest />
-      </div>
-    </>
-  )
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
