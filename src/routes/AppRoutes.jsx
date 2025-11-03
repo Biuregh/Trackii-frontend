@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import RequireAuth from "../components/RequireAuth";
+import ProfileDashboard from "../pages/ProfileDashboard";
 
 
 export default function AppRoutes() {
@@ -16,6 +17,14 @@ export default function AppRoutes() {
                 element={
                     <RequireAuth>
                         <Dashboard />
+                    </RequireAuth>
+                }
+            />
+            <Route
+                path="/profiles/:id"
+                element={
+                    <RequireAuth>
+                        <ProfileDashboard />
                     </RequireAuth>
                 }
             />
