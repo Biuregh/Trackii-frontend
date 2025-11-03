@@ -1,15 +1,32 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../context/Authprovider";
 import AuthForm from "../components/AuthForm";
+import { useAuthContext } from "../context/Authprovider";
 
 export default function Register() {
   const { register } = useAuthContext();
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleRegister = async (data) => {
-    await register(data);
-    navigate("/");
+  const handleRegister = async (values) => {
+    setSubmitting(true);
+    setError("");
+    try {
+      await register(values);
+      navigate("/dashboard");
+    } catch (e) {
+      const m = e?.response?.data?.errors?.[0]?.msg || e?.response?.data?.message || "Registration failed";
+      setError(m);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  return <AuthForm onSubmit={handleRegister} buttonText="Register" />;
+  return (
+    <div className="max-w-sm mx-auto p-6">
+      {error ? <p className="mb-3 text-red-600">{error}</p> : null}
+      <AuthForm onSubmit={handleRegister} buttonText={submitting ? "…" : "Create Account"} disabled={submitting} />
+    </div>
+  );
 }

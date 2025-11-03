@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../lib/api";
 import ProfileCard from "../components/ProfileCard";
 import Modal from "../components/Modal";
+import Spinner from "../components/Spinner";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -9,7 +10,7 @@ export default function Dashboard() {
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState("general");
-  const [dueDate, setDueDate] = useState(""); 
+  const [dueDate, setDueDate] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -69,21 +70,7 @@ export default function Dashboard() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="mx-auto max-w-5xl p-6">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Your Profiles</h1>
-          <div className="h-10 w-32 animate-pulse rounded-xl bg-gray-200 dark:bg-slate-800" />
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-40 animate-pulse rounded-2xl bg-gray-200 dark:bg-slate-800" />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <Spinner />;
 
   return (
     <div className="mx-auto max-w-5xl p-6">

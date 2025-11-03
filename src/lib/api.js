@@ -20,8 +20,16 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (res) => res,
-  (error) => {
-    return Promise.reject(error);
+  (err) => {
+    const status = err?.response?.status;
+    if (status === 401) {
+      storage.removeToken();
+      window.dispatchEvent(new CustomEvent("auth:logout"));
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      }
+    }
+    return Promise.reject(err);
   }
 );
 

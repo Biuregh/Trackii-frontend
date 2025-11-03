@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../lib/api";
+import Spinner from "../components/Spinner";
 
 export default function ProfileDashboard() {
     const { id } = useParams();
@@ -107,13 +108,7 @@ export default function ProfileDashboard() {
         }
     };
 
-    if (loading) {
-        return (
-            <div className="p-6">
-                <div className="mb-4">Loading...</div>
-            </div>
-        );
-    }
+    if (loading) return <Spinner />;
 
     return (
         <div className="p-6">
