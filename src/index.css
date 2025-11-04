@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --bg: #ffffff; --text: #0f172a; }
+:root { --bg: #ffffff; --text: #0f2a13; }
 [data-theme="dark"] { --bg: #071026; --text: #e6eef8; }
 body { background: var(--bg); color: var(--text); }
 
