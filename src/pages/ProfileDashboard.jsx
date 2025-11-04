@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import Spinner from "../components/Spinner";
+import WeightChart from "../components/WeightChart";
 
 export default function ProfileDashboard() {
     const { id } = useParams();
@@ -154,6 +155,18 @@ export default function ProfileDashboard() {
                             </ul>
                         )}
                     </div>
+
+                    <div className="rounded border p-4">
+                        <div className="mb-2 font-semibold">Recent Weight</div>
+                        <WeightChart series={weightSeries} />
+                    </div>
+                </div>
+            )}
+
+            {tab === "chart" && (
+                <div className="rounded border p-4">
+                    <div className="mb-2 font-semibold">Weight Chart (last 30)</div>
+                    <WeightChart series={weightSeries} />
                 </div>
             )}
 
