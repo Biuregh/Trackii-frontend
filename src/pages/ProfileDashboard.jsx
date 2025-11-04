@@ -111,7 +111,7 @@ export default function ProfileDashboard() {
     if (loading) return <Spinner />;
 
     return (
-        <div className="p-6">
+        <div id="main" className="p-6">
             <div className="mb-4 flex justify-between">
                 <button className="underline" onClick={() => navigate("/dashboard")}>Back</button>
                 <div className="flex gap-2">

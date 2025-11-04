@@ -73,10 +73,12 @@ export default function Dashboard() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="mx-auto max-w-5xl p-6">
+    <div id="main" className="mx-auto max-w-5xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Your Profiles</h1>
+        <Spinner />
         <button
+          type="button"
           onClick={() => setShowCreate(true)}
           className="rounded-xl bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
         >

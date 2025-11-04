@@ -5,3 +5,7 @@
 :root { --bg: #ffffff; --text: #0f172a; }
 [data-theme="dark"] { --bg: #071026; --text: #e6eef8; }
 body { background: var(--bg); color: var(--text); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -24,9 +24,19 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-sm mx-auto p-6">
-      {error ? <p className="mb-3 text-red-600">{error}</p> : null}
-      <AuthForm onSubmit={handleRegister} buttonText={submitting ? "…" : "Create Account"} disabled={submitting} />
+    <div id="main" className="max-w-sm mx-auto p-6">
+      <h1 className="text-xl font-semibold mb-4">Create Account</h1>
+      {error ? (
+        <p id="register-error" role="alert" aria-live="polite" className="mb-3 text-red-600">
+          {error}
+        </p>
+      ) : null}
+      <AuthForm
+        onSubmit={handleRegister}
+        buttonText={submitting ? "…" : "Create Account"}
+        disabled={submitting}
+        passwordAutoComplete="new-password"
+      />
     </div>
   );
 }
