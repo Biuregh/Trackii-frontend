@@ -3,6 +3,7 @@ import api from "../lib/api";
 import ProfileCard from "../components/ProfileCard";
 import Modal from "../components/Modal";
 import Spinner from "../components/Spinner";
+import LogoutButton from "../components/LogoutButton";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,6 @@ export default function Dashboard() {
       const res = await api.post("/profiles", body);
       const created = res.data?.data ?? res.data ?? null;
       if (created) setProfiles((prev) => [created, ...prev]);
-
       setShowCreate(false);
       setName("");
       setType("general");
@@ -76,14 +76,16 @@ export default function Dashboard() {
     <div id="main" className="mx-auto max-w-5xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Your Profiles</h1>
-        <Spinner />
-        <button
-          type="button"
-          onClick={() => setShowCreate(true)}
-          className="rounded-xl bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
-        >
-          + Add Profile
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowCreate(true)}
+            className="rounded-xl bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
+          >
+            + Add Profile
+          </button>
+          <LogoutButton />
+        </div>
       </div>
 
       {Array.isArray(profiles) && profiles.length === 0 ? (
@@ -115,8 +117,11 @@ export default function Dashboard() {
 
         <form onSubmit={handleCreate} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm">Name</label>
+            <label className="mb-1 block text-sm" htmlFor="name">
+              Name
+            </label>
             <input
+              id="name"
               className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-800"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -126,8 +131,11 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm">Type</label>
+            <label className="mb-1 block text-sm" htmlFor="type">
+              Type
+            </label>
             <select
+              id="type"
               className="w-full rounded-xl border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-slate-800"
               value={type}
               onChange={(e) => setType(e.target.value)}
@@ -140,8 +148,11 @@ export default function Dashboard() {
 
           {type === "pregnancy" && (
             <div>
-              <label className="mb-1 block text-sm">Due Date</label>
+              <label className="mb-1 block text-sm" htmlFor="dueDate">
+                Due Date
+              </label>
               <input
+                id="dueDate"
                 type="date"
                 className="w-full rounded-xl border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-slate-800"
                 value={dueDate}
