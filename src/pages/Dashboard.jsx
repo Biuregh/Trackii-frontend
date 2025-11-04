@@ -101,7 +101,7 @@ export default function Dashboard() {
       ) : Array.isArray(profiles) ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {profiles.map((p) => (
-            <ProfileCard key={p._id || p.id} profile={p} />
+            <ProfileCard key={p._id || p.id} profile={p} onChanged={fetchProfiles}/>
           ))}
         </div>
       ) : null}
