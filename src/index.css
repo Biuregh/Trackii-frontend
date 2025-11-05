@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root { --bg: #ffffff; --text: #0f2a13; }
 [data-theme="dark"] { --bg: #071026; --text: #e6eef8; }
