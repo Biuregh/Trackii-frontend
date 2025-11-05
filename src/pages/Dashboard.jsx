@@ -73,56 +73,70 @@ export default function Dashboard() {
   if (loading) return <Spinner />;
 
   return (
-    <div id="main" className="mx-auto max-w-5xl p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Your Profiles</h1>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setShowCreate(true)}
-            className="rounded-xl bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
-          >
-            + Add Profile
-          </button>
-          <LogoutButton />
+    <div
+      id="main"
+      className="min-h-dvh bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40"
+    >
+      <div className="mx-auto max-w-5xl px-6 py-8">
+        {/* Header */}
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-800">Your Profiles</h1>
+            <p className="mt-1 text-sm text-slate-500">
+              Keep your family’s health in one calm place.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowCreate(true)}
+              className="rounded-xl bg-violet-500 px-4 py-2 text-white shadow-sm transition hover:bg-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-300"
+            >
+              + Add Profile
+            </button>
+            <LogoutButton />
+          </div>
         </div>
+
+        {/* Content */}
+        {Array.isArray(profiles) && profiles.length === 0 ? (
+          <div className="rounded-2xl border border-violet-200 bg-white/80 p-10 text-center shadow-sm">
+
+            <p className="mb-4 text-slate-600">No profiles yet.</p>
+            <button
+              onClick={() => setShowCreate(true)}
+              className="rounded-xl bg-violet-500 px-4 py-2 text-white shadow-sm transition hover:bg-violet-600 focus:outline-none focus:ring-4 focus:ring-violet-300"
+            >
+              + Add Profile
+            </button>
+          </div>
+        ) : Array.isArray(profiles) ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {profiles.map((p) => (
+              <ProfileCard key={p._id || p.id} profile={p} onChanged={fetchProfiles} />
+            ))}
+          </div>
+        ) : null}
       </div>
 
-      {Array.isArray(profiles) && profiles.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-gray-300 p-10 text-center dark:border-gray-700">
-          <p className="mb-4 text-gray-600 dark:text-gray-300">No profiles yet.</p>
-          <button
-            onClick={() => setShowCreate(true)}
-            className="rounded-xl bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
-          >
-            + Add Profile
-          </button>
-        </div>
-      ) : Array.isArray(profiles) ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {profiles.map((p) => (
-            <ProfileCard key={p._id || p.id} profile={p} onChanged={fetchProfiles}/>
-          ))}
-        </div>
-      ) : null}
-
+      {/* Create Modal */}
       <Modal open={showCreate} onClose={() => setShowCreate(false)}>
-        <h2 className="mb-2 text-lg font-semibold">Create Profile</h2>
+        <h2 className="mb-2 text-lg font-semibold text-slate-800">Create Profile</h2>
 
         {formError ? (
-          <div className="mb-3 rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+          <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
             {formError}
           </div>
         ) : null}
 
         <form onSubmit={handleCreate} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm" htmlFor="name">
+            <label className="mb-1 block text-sm text-slate-600" htmlFor="name">
               Name
             </label>
             <input
               id="name"
-              className="w-full rounded-xl border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-800"
+              className="w-full rounded-xl border border-violet-200 bg-white px-3 py-2 text-slate-800 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-4 focus:ring-violet-200"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Emma"
@@ -131,12 +145,12 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm" htmlFor="type">
+            <label className="mb-1 block text-sm text-slate-600" htmlFor="type">
               Type
             </label>
             <select
               id="type"
-              className="w-full rounded-xl border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-slate-800"
+              className="w-full rounded-xl border border-violet-200 bg-white px-3 py-2 text-slate-800 focus:border-violet-400 focus:ring-4 focus:ring-violet-200"
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
@@ -148,13 +162,13 @@ export default function Dashboard() {
 
           {type === "pregnancy" && (
             <div>
-              <label className="mb-1 block text-sm" htmlFor="dueDate">
+              <label className="mb-1 block text-sm text-slate-600" htmlFor="dueDate">
                 Due Date
               </label>
               <input
                 id="dueDate"
                 type="date"
-                className="w-full rounded-xl border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-slate-800"
+                className="w-full rounded-xl border border-violet-200 bg-white px-3 py-2 text-slate-800 focus:border-violet-400 focus:ring-4 focus:ring-violet-200"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
                 required
@@ -163,13 +177,17 @@ export default function Dashboard() {
           )}
 
           <div className="flex items-center justify-end gap-2">
-            <button type="button" onClick={() => setShowCreate(false)} className="rounded-xl px-4 py-2">
+            <button
+              type="button"
+              onClick={() => setShowCreate(false)}
+              className="rounded-xl px-4 py-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-slate-200"
+            >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60"
+              className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-violet-300"
             >
               {submitting ? "Saving..." : "Create"}
             </button>

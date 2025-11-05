@@ -60,8 +60,9 @@ export default function PrescriptionsList({ profileId }) {
     const onDelete = async (item) => {
         try {
             await api.delete(`/prescriptions/${item._id}`);
+        } finally {
             await load();
-        } catch { }
+        }
     };
 
     const onEdit = (item) => {
@@ -77,17 +78,30 @@ export default function PrescriptionsList({ profileId }) {
     return (
         <div className="space-y-3">
             <div className="flex justify-end">
-                <button onClick={onAdd} className="rounded-lg bg-blue-600 px-4 py-2 text-white">+ Add Rx</button>
+                <button
+                    onClick={onAdd}
+                    className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                >
+                    + Add Rx
+                </button>
             </div>
 
             {loading ? (
-                <div className="text-sm text-gray-500">Loading prescriptions…</div>
+                <div className="rounded-2xl border border-violet-200 bg-white/90 p-3 text-sm text-slate-600">
+                    Loading prescriptions…
+                </div>
             ) : err ? (
-                <div className="rounded border p-3 text-sm text-red-600">
-                    {err} <button onClick={load} className="underline ml-2">Retry</button>
+                <div className="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                    {err}
+                    <button
+                        onClick={load}
+                        className="ml-2 rounded-xl border border-violet-200 bg-white px-3 py-1 text-xs text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
+                    >
+                        Retry
+                    </button>
                 </div>
             ) : items.length === 0 ? (
-                <div className="rounded border p-3 text-sm text-gray-600">
+                <div className="rounded-2xl border border-violet-200 bg-white/90 p-3 text-sm text-slate-600">
                     No prescriptions yet. Add one with “+ Add Rx”.
                 </div>
             ) : (
@@ -101,6 +115,9 @@ export default function PrescriptionsList({ profileId }) {
                     />
                 ))
             )}
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+            </div>
 
             <PrescriptionModal
                 open={open}

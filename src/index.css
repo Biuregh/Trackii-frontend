@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
-:root { --bg: #ffffff; --text: #0f2a13; }
-[data-theme="dark"] { --bg: #071026; --text: #e6eef8; }
+:root {
+  --bg: #f5f3ff;
+  --text: #1f2937; 
+}
+
+[data-theme="dark"] {
+  --bg: #0f1024;  
+  --text: #e9e7ff; 
+}
+
 body { background: var(--bg); color: var(--text); }
 
 @media (prefers-reduced-motion: reduce) {

@@ -11,7 +11,10 @@ export default function LogoutButton() {
     };
 
     return (
-        <button onClick={handle} className="rounded px-3 py-2 border">
+        <button
+            onClick={handle}
+            className="rounded-xl border border-violet-200 bg-white px-3 py-2 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
+        >
             Logout
         </button>
     );

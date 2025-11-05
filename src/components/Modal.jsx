@@ -12,9 +12,7 @@ export default function Modal({ open, onClose, title, children }) {
     const el = dialogRef.current;
     const q = (sel) => Array.from(el.querySelectorAll(sel));
     const focusables = () =>
-      q(
-        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-      );
+      q('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
 
     const focusFirst = () => {
       const preferred = el.querySelector("[data-autofocus]");
@@ -74,7 +72,7 @@ export default function Modal({ open, onClose, title, children }) {
   return (
     <div
       onMouseDown={handleBackdrop}
-      className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-violet-900/20 backdrop-blur-sm p-4"
       aria-hidden="false"
     >
       <div
@@ -83,11 +81,11 @@ export default function Modal({ open, onClose, title, children }) {
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900"
+        className="w-full max-w-md rounded-2xl border border-violet-200 bg-white/90 p-6 shadow-lg outline-none"
       >
         <div className="flex items-start justify-between gap-4">
           {title ? (
-            <h2 id={titleId} className="text-lg font-semibold">
+            <h2 id={titleId} className="text-lg font-semibold text-slate-800">
               {title}
             </h2>
           ) : (
@@ -97,7 +95,7 @@ export default function Modal({ open, onClose, title, children }) {
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded px-2 py-1 hover:bg-gray-100 dark:hover:bg-slate-800"
+            className="rounded-lg px-2 py-1 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
           >
             ✕
           </button>

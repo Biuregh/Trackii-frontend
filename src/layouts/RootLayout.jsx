@@ -1,13 +1,22 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "./Header";
 
 export default function RootLayout() {
     return (
-        <div className="min-h-dvh bg-slate-950 text-slate-100">
+        <>
+            <a href="#main"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:rounded-xl focus:border focus:border-violet-300 focus:bg-white focus:px-3 focus:py-2 focus:text-violet-700 focus:shadow-sm focus:ring-4 focus:ring-violet-200"
+            >
+                Skip to content
+            </a>
+
             <Header />
-            <main id="main" className="mx-auto max-w-6xl px-4 py-6 outline-none">
+
+            <main id="main"
+                className="mx-auto min-h-dvh max-w-5xl px-6 py-8 pt-16"
+            >
                 <Outlet />
             </main>
-        </div>
+        </>
     );
 }
