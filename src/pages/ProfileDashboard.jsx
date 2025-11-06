@@ -54,7 +54,7 @@ export default function ProfileDashboard() {
                 {/* Top bar */}
                 <div className="mb-6 flex items-center justify-between">
                     <button
-                        onClick={() => navigate("/dashboard")}
+                        onClick={() => navigate("/profiles")}
                         className="rounded-xl px-3 py-2 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
                     >
                         ← Back

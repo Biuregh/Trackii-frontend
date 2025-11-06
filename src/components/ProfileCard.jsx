@@ -97,7 +97,7 @@ export default function ProfileCard({ profile, onChanged }) {
                     className="flex-1 rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-violet-300"
                     disabled={busy}
                 >
-                    View Dashboard
+                    Health Overview
                 </button>
 
                 <button
