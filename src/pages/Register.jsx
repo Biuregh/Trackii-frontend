@@ -1,69 +1,59 @@
+// src/pages/Register.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../lib/api";
 import AuthForm from "../components/AuthForm";
-import { useAuthContext } from "../context/Authprovider";
 
 export default function Register() {
-  const { register } = useAuthContext();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [err, setErr] = useState("");
 
-  const handleRegister = async (values) => {
+  const handleSubmit = async (body) => {
+    setErr("");
     setSubmitting(true);
-    setError("");
     try {
-      await register(values);
+      // body will be { name, email, password } because includeName is true
+      const res = await api.post("/auth/register", body);
+      // optionally auto-login if API returns token:
+      // storage.setToken(res.data.token)
       navigate("/dashboard");
     } catch (e) {
-      const m =
-        e?.response?.data?.errors?.[0]?.msg ||
+      const msg =
         e?.response?.data?.message ||
-        "Registration failed";
-      setError(m);
+        e?.response?.data?.errors?.[0]?.msg ||
+        "Registration failed.";
+      setErr(msg);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-dvh bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40">
-      <div className="mx-auto max-w-sm px-6 py-16">
-        <div className="rounded-2xl border border-violet-200 bg-white/90 p-6 shadow-sm backdrop-blur">
-          <h1 className="text-xl font-semibold text-slate-800 text-center">
-            Create your account
-          </h1>
-          <p className="mt-1 mb-4 text-center text-sm text-slate-500">
-            Start your family health journey.
-          </p>
+    <div className="min-h-dvh grid place-items-center bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40 px-6 py-8">
+      <div className="w-full max-w-md rounded-2xl border border-violet-200 bg-white/90 p-6 shadow-sm">
+        <h1 className="mb-2 text-2xl font-semibold text-slate-800">Create account</h1>
+        <p className="mb-4 text-sm text-slate-500">Join Trackii in seconds.</p>
 
-          {error ? (
-            <p
-              id="register-error"
-              role="alert"
-              aria-live="polite"
-              className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
-            >
-              {error}
-            </p>
-          ) : null}
-
-          <AuthForm
-            showName
-            onSubmit={handleRegister}
-            buttonText={submitting ? "…" : "Create Account"}
-            disabled={submitting}
-            passwordAutoComplete="new-password"
-          />
-
-          <div className="mt-4 text-center">
-            <a
-              href="/login"
-              className="text-sm text-violet-700 hover:text-violet-800 hover:underline"
-            >
-              Already have an account? Log in
-            </a>
+        {err ? (
+          <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+            {err}
           </div>
+        ) : null}
+
+        <AuthForm
+          includeName  
+          buttonText="Create account"
+          disabled={submitting}
+          passwordAutoComplete="new-password"
+          onSubmit={handleSubmit}
+        />
+
+        <div className="mt-3 text-sm text-slate-600">
+          Already have an account?{" "}
+          <Link to="/login" className="text-violet-700 hover:underline">
+            Log in
+          </Link>
         </div>
       </div>
     </div>

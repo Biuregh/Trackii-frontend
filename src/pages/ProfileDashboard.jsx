@@ -6,36 +6,47 @@ import WeightChart from "../components/WeightChart";
 import LogModal from "../components/LogModal";
 import PrescriptionsList from "../components/PrescriptionsList";
 import LogsList from "../components/LogsList";
+import LogoutButton from "../components/LogoutButton";
 
 export default function ProfileDashboard() {
     const { id } = useParams();
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const [profile, setProfile] = useState(null);
     const [summary, setSummary] = useState([]);
     const [weightStats, setWeightStats] = useState(null);
     const [weightSeries, setWeightSeries] = useState([]);
+
     const [tab, setTab] = useState("overview");
     const [logOpen, setLogOpen] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
 
     const load = async () => {
         setLoading(true);
         setErrorMsg("");
+
         try {
-            const [s, w] = await Promise.all([
+            const [p, s, w] = await Promise.all([
+                api.get(`/profiles/${id}`),
                 api.get(`/profiles/${id}/stats/summary`),
                 api.get(`/profiles/${id}/stats/weight`),
             ]);
-            const sData = Array.isArray(s.data?.data)
+
+            const pData = p?.data?.data ?? p?.data ?? null;
+            setProfile(pData);
+
+            const sData = Array.isArray(s?.data?.data)
                 ? s.data.data
-                : Array.isArray(s.data)
+                : Array.isArray(s?.data)
                     ? s.data
                     : [];
             setSummary(sData);
-            setWeightStats(w.data?.stats || null);
-            setWeightSeries(Array.isArray(w.data?.series) ? w.data.series : []);
-        } catch {
+
+            setWeightStats(w?.data?.stats || null);
+            setWeightSeries(Array.isArray(w?.data?.series) ? w.data.series : []);
+        } catch (e) {
             setErrorMsg("Failed to load profile stats.");
         } finally {
             setLoading(false);
@@ -52,12 +63,12 @@ export default function ProfileDashboard() {
         <div className="min-h-dvh bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40">
             <div id="main" className="mx-auto max-w-5xl px-6 py-8">
                 <div className="mb-6 flex items-center justify-between">
-                    <button
-                        onClick={() => navigate("/profiles")}
-                        className="rounded-xl px-3 py-2 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
-                    >
-                        ← Back
-                    </button>
+                    <div>
+                        <h1 className="text-2xl font-semibold text-slate-800">
+                            <span className="text-violet-700">{profile?.name || "—"}'s Profile</span>
+                        </h1>
+                    </div>
+
                     <div className="flex gap-2">
                         <button
                             className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
@@ -74,6 +85,7 @@ export default function ProfileDashboard() {
                         >
                             + Add Rx
                         </button>
+                        <LogoutButton />
                     </div>
                 </div>
 
@@ -83,6 +95,12 @@ export default function ProfileDashboard() {
                     </div>
                 )}
 
+                <button
+                    onClick={() => navigate("/profiles")}
+                    className="mb-4 rounded-xl px-3 py-2 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
+                >
+                    ← Back
+                </button>
                 <div
                     role="tablist"
                     aria-label="Profile sections"

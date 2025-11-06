@@ -4,6 +4,7 @@ import api from "../lib/api";
 import Spinner from "../components/Spinner";
 import ProfileCard from "../components/ProfileCard";
 import AskAiCard from "../components/AskAiCard";
+import LogoutButton from "../components/LogoutButton";
 
 async function getWeightLatest(profileId) {
     try {
@@ -290,8 +291,10 @@ export default function Dashboard() {
     };
 
     const greetingName = useMemo(() => {
-        const raw = me?.name || me?.firstName || me?.email || "there";
-        return String(raw).split(" ")[0];
+        const name = (me?.name || "").trim();
+        if (name) return name.split(" ")[0];
+
+        return "friend";
     }, [me]);
 
     if (loading) return <Spinner />;
@@ -311,16 +314,11 @@ export default function Dashboard() {
                     <div className="flex items-center gap-2">
                         <Link
                             to="/profiles"
-                            className="rounded-xl border border-violet-200 bg-white px-4 py-2 text-violet-700 shadow-sm transition hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
+                            className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
                         >
                             View All Profiles
                         </Link>
-                        <Link
-                            to="/profiles"
-                            className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
-                        >
-                            + Add Profile
-                        </Link>
+                        <LogoutButton />
                     </div>
                 </div>
 

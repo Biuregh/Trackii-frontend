@@ -72,14 +72,6 @@ export default function LogsList({ profileId, onChanged }) {
     if (loading) {
         return (
             <div className="space-y-3">
-                <div className="flex justify-end">
-                    <button
-                        onClick={onAdd}
-                        className="rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
-                    >
-                        + Quick Log
-                    </button>
-                </div>
                 <div className="rounded-2xl border border-violet-200 bg-white/90 p-3 text-sm text-slate-600">
                     Loading logs…
                 </div>

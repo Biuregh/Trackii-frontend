@@ -1,11 +1,80 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import ProfileCard from "../components/ProfileCard";
 import Modal from "../components/Modal";
 import Spinner from "../components/Spinner";
 import LogoutButton from "../components/LogoutButton";
 
+async function getWeightLatest(profileId) {
+  try {
+    const res = await api.get(`/profiles/${profileId}/stats/weight`);
+    return res.data?.stats?.latest ?? null;
+  } catch {
+    try {
+      const r2 = await api.get(`/profiles/${profileId}/logs`, {
+        params: { category: "weight", limit: 1, page: 1 },
+      });
+      const arr = Array.isArray(r2.data?.data)
+        ? r2.data.data
+        : Array.isArray(r2.data?.logs)
+          ? r2.data.logs
+          : Array.isArray(r2.data)
+            ? r2.data
+            : [];
+      return arr[0]?.value ?? null;
+    } catch {
+      return null;
+    }
+  }
+}
+
+async function getActiveRxCount(profileId) {
+  try {
+    const res = await api.get(`/prescriptions/profiles/${profileId}`, {
+      params: { active: true },
+    });
+    const list = Array.isArray(res.data?.data)
+      ? res.data.data
+      : Array.isArray(res.data?.prescriptions)
+        ? res.data.prescriptions
+        : Array.isArray(res.data)
+          ? res.data
+          : [];
+    return list.length;
+  } catch {
+    try {
+      const r2 = await api.get(`/profiles/${profileId}/prescriptions`);
+      const list = Array.isArray(r2.data?.data)
+        ? r2.data.data
+        : Array.isArray(r2.data?.prescriptions)
+          ? r2.data.prescriptions
+          : Array.isArray(r2.data)
+            ? r2.data
+            : [];
+      return list.filter((x) => x.active !== false).length;
+    } catch {
+      return 0;
+    }
+  }
+}
+
+async function enrichProfiles(list) {
+  const jobs = (list || []).map(async (p) => {
+    const id = p._id || p.id;
+    if (!id) return p;
+    const [latestWeight, activeRxCount] = await Promise.all([
+      getWeightLatest(id),
+      getActiveRxCount(id),
+    ]);
+    return { ...p, latestWeight, activeRxCount };
+  });
+  const results = await Promise.allSettled(jobs);
+  return results.map((r, i) => (r.status === "fulfilled" ? r.value : list[i]));
+}
+
 export default function Profiles() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [profiles, setProfiles] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
@@ -25,8 +94,10 @@ export default function Profiles() {
   const fetchProfiles = async () => {
     setLoading(true);
     try {
-      const res = await api.get("/profiles");
-      setProfiles(normalizeList(res.data));
+      const res = await api.get("/profiles"); 
+      let list = normalizeList(res.data);
+      list = await enrichProfiles(list);
+      setProfiles(list);
     } finally {
       setLoading(false);
     }
@@ -54,7 +125,14 @@ export default function Profiles() {
     try {
       const res = await api.post("/profiles", body);
       const created = res.data?.data ?? res.data ?? null;
-      if (created) setProfiles((prev) => [created, ...prev]);
+      if (created) {
+        const id = created._id || created.id;
+        const [latestWeight, activeRxCount] = await Promise.all([
+          getWeightLatest(id),
+          getActiveRxCount(id),
+        ]);
+        setProfiles((prev) => [{ ...created, latestWeight, activeRxCount }, ...prev]);
+      }
       setShowCreate(false);
       setName("");
       setType("general");
@@ -97,9 +175,15 @@ export default function Profiles() {
           </div>
         </div>
 
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="mb-4 rounded-xl px-3 py-2 text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
+        >
+          ← Back
+        </button>
+
         {Array.isArray(profiles) && profiles.length === 0 ? (
           <div className="rounded-2xl border border-violet-200 bg-white/80 p-10 text-center shadow-sm">
-
             <p className="mb-4 text-slate-600">No profiles yet.</p>
             <button
               onClick={() => setShowCreate(true)}

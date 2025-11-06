@@ -53,6 +53,11 @@ export default function ProfileCard({ profile, onChanged }) {
                             <span className="inline-flex items-center rounded-full border border-violet-200 bg-white px-2 py-0.5 text-xs text-violet-700">
                                 {type}
                             </span>
+
+                        </div>
+                    </div>
+                </div>
+
                             <span
                                 className={[
                                     "inline-flex items-center rounded-full px-2 py-0.5 text-xs",
@@ -63,16 +68,6 @@ export default function ProfileCard({ profile, onChanged }) {
                             >
                                 {isActive ? "active" : "inactive"}
                             </span>
-                        </div>
-                    </div>
-                </div>
-
-                <Link
-                    to={`/profiles/${id}`}
-                    className="rounded-xl border border-violet-200 bg-white px-3 py-1.5 text-sm text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
-                >
-                    Open
-                </Link>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
@@ -91,7 +86,7 @@ export default function ProfileCard({ profile, onChanged }) {
             <div className="mt-4 flex gap-2">
                 <button
                     onClick={() => navigate(`/profiles/${id}`)}
-                    className="flex-1 rounded-xl bg-violet-600 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                    className="flex-1 rounded-xl bg-violet-500 px-4 py-2 text-white shadow-sm transition hover:bg-violet-700 disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-violet-300"
                     disabled={busy}
                 >
                     Health Overview
@@ -109,9 +104,9 @@ export default function ProfileCard({ profile, onChanged }) {
 
                 <button
                     onClick={remove}
-                    className="rounded-xl px-3 py-2 border border-violet-200
-             bg-rose-100 text-red-700
-             hover:bg-rose-200 hover:text-red-800
+                    className="rounded-xl px-3 py-2 border border-red-500
+             bg-white text-red-500
+             hover:bg-red-500 hover:text-white
              focus:outline-none focus:ring-4 focus:ring-rose-300
              disabled:opacity-60"
                     disabled={busy}
