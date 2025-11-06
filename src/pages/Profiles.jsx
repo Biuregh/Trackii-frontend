@@ -78,7 +78,6 @@ export default function Profiles() {
       className="min-h-dvh bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40"
     >
       <div className="mx-auto max-w-5xl px-6 py-8">
-        {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-slate-800">Your Profiles</h1>
@@ -98,7 +97,6 @@ export default function Profiles() {
           </div>
         </div>
 
-        {/* Content */}
         {Array.isArray(profiles) && profiles.length === 0 ? (
           <div className="rounded-2xl border border-violet-200 bg-white/80 p-10 text-center shadow-sm">
 
@@ -119,7 +117,6 @@ export default function Profiles() {
         ) : null}
       </div>
 
-      {/* Create Modal */}
       <Modal open={showCreate} onClose={() => setShowCreate(false)}>
         <h2 className="mb-2 text-lg font-semibold text-slate-800">Create Profile</h2>
 

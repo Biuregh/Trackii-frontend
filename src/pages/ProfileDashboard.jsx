@@ -51,7 +51,6 @@ export default function ProfileDashboard() {
     return (
         <div className="min-h-dvh bg-gradient-to-b from-white via-violet-50/50 to-purple-50/40">
             <div id="main" className="mx-auto max-w-5xl px-6 py-8">
-                {/* Top bar */}
                 <div className="mb-6 flex items-center justify-between">
                     <button
                         onClick={() => navigate("/profiles")}
@@ -84,7 +83,6 @@ export default function ProfileDashboard() {
                     </div>
                 )}
 
-                {/* Tabs */}
                 <div
                     role="tablist"
                     aria-label="Profile sections"
@@ -104,7 +102,6 @@ export default function ProfileDashboard() {
                     </TabButton>
                 </div>
 
-                {/* Panels */}
                 {tab === "overview" && (
                     <div className="grid gap-4 md:grid-cols-2">
                         <Card title="Weight">
@@ -179,8 +176,6 @@ export default function ProfileDashboard() {
         </div>
     );
 }
-
-/* ---------- tiny UI helpers (same theme) ---------- */
 
 function TabButton({ id, active, children, ...props }) {
     return (

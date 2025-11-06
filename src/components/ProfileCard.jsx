@@ -67,7 +67,6 @@ export default function ProfileCard({ profile, onChanged }) {
                     </div>
                 </div>
 
-                {/* quick view link for clarity */}
                 <Link
                     to={`/profiles/${id}`}
                     className="rounded-xl border border-violet-200 bg-white px-3 py-1.5 text-sm text-violet-700 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-200"
@@ -76,7 +75,6 @@ export default function ProfileCard({ profile, onChanged }) {
                 </Link>
             </div>
 
-            {/* metrics */}
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl border border-violet-200 bg-white p-3">
                     <div className="text-slate-500">Last weight</div>
@@ -90,7 +88,6 @@ export default function ProfileCard({ profile, onChanged }) {
                 </div>
             </div>
 
-            {/* actions */}
             <div className="mt-4 flex gap-2">
                 <button
                     onClick={() => navigate(`/profiles/${id}`)}
