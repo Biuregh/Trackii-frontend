@@ -27,13 +27,15 @@ export default function useAuth() {
 
   const login = async (credentials) => {
     const response = await api.post("/auth/login", credentials);
-    const t = response.data.token;
+    const t = response.data.data.token;
+        console.log(t , response.data.data)
     if (t) {
       storeToken(t);
       setTokenState(t);
       setUser(response.data.user ?? null);
       setIsAuthenticated(true);
     }
+
     return response.data;
   };
 

@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../lib/api";
@@ -13,10 +12,7 @@ export default function Register() {
     setErr("");
     setSubmitting(true);
     try {
-      // body will be { name, email, password } because includeName is true
       const res = await api.post("/auth/register", body);
-      // optionally auto-login if API returns token:
-      // storage.setToken(res.data.token)
       navigate("/dashboard");
     } catch (e) {
       const msg =

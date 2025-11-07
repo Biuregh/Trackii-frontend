@@ -10,10 +10,13 @@ export default function Login() {
   const [error, setError] = useState("");
 
   const handleLogin = async (values) => {
+    console.log(values)
     setSubmitting(true);
+
     setError("");
     try {
       await login(values);
+
       navigate("/dashboard");
     } catch (e) {
       const m =
